@@ -160,8 +160,23 @@ class ActionNetworkClient:
         games_data = []
 
         for game in data.get('games', []):
-            away_team = game['teams'][0]['display_name']
-            home_team = game['teams'][1]['display_name']
+            # Use away_team_id and home_team_id to correctly identify teams
+            away_team_id = game.get('away_team_id')
+            home_team_id = game.get('home_team_id')
+
+            # Find the correct team names by matching IDs
+            away_team = None
+            home_team = None
+            for team in game['teams']:
+                if team['id'] == away_team_id:
+                    away_team = team['display_name']
+                elif team['id'] == home_team_id:
+                    home_team = team['display_name']
+
+            # Fallback to old behavior if IDs not found (shouldn't happen)
+            if not away_team or not home_team:
+                away_team = game['teams'][0]['display_name']
+                home_team = game['teams'][1]['display_name']
 
             pro_report = game.get('pro_report', {})
 

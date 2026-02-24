@@ -98,16 +98,12 @@ class ActionNetworkClient:
             'tournament': '0'
         }
 
-        # The token might be used in localStorage by the web app
-        # Try the request without explicit auth first (browser session might handle it)
+        # Always send the Bearer token — the API returns 200 without it but
+        # silently omits pro_report data (sharp signals, steam moves, etc.)
+        self.session.headers.update({
+            'Authorization': f'Bearer {self.token}'
+        })
         response = self.session.get(url, params=params)
-
-        if response.status_code == 401:
-            # If unauthorized, try with Authorization header
-            self.session.headers.update({
-                'Authorization': f'Bearer {self.token}'
-            })
-            response = self.session.get(url, params=params)
 
         response.raise_for_status()
         return response.json()

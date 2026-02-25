@@ -9,7 +9,10 @@
       "Bash(git push:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(/home/dconde/miniconda3/envs/danpom/bin/python:)",
+      "Bash(/home/dconde/miniconda3/envs/danpom/bin/python:*)",
+      "Bash(/home/dconde/miniconda3/envs/danpom/bin/python3:*)"
     ]
   }
 }
